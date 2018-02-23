@@ -22,6 +22,8 @@ from neo.Settings import settings
 from milestonecontract import MilestoneSmartContract
 from handler import CommandHandler
 
+# Use private net
+settings.setup_privnet()
 
 # If you want the log messages to also be saved in a logfile, enable the
 # next line. This configures a logfile with max 10 MB and 3 rotations:
