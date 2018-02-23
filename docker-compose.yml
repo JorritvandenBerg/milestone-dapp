@@ -1,0 +1,33 @@
+version: "3.3"
+
+services:
+    neo_boa:
+        build: ./neo-boa
+        volumes:
+            - ./smartcontract:/python-contracts
+            - compiled_contract:/compiled_contracts
+
+    private_net:
+        image: cityofzion/neo-privatenet
+
+    neo_python:
+        build: ./neo-python
+        depends_on:
+            - neo_boa
+        volumes:
+            - wallet:/neo-python/neo-privnet.wallet
+            - compiled_contract:/neo-python/contract
+
+        links:
+            - private_net
+        stdin_open: true
+        tty: true
+
+    middleware:
+        build: ./middleware
+        volumes:
+            - wallet:/neo-python/neo-privnet.wallet
+
+volumes:
+    wallet:
+    compiled_contract:
