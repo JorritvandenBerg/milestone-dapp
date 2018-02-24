@@ -95,6 +95,7 @@ def Main(operation, args):
             if len(args) == 1:
                 new_fee = args[0]
                 context = GetContext()
+                Delete(context, 'fee')
                 Put(context, 'fee', new_fee)
                 DispatchFeeUpdateEvent(new_fee)
                 return True

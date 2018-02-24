@@ -9,7 +9,7 @@ WORKDIR /neo-python
 RUN git checkout development
 RUN pip3 install -r requirements.txt
 
-COPY ./neo-privnet.wallet /neo-python/neo-privnet.wallet
+COPY ./neo-privnet.wallet /neo-python/wallets/neo-privnet.wallet
 RUN rm ./protocol.privnet.json
 COPY ./protocol.privnet.json /neo-python/protocol.privnet.json
 

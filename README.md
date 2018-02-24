@@ -58,13 +58,16 @@ docker-compose up -d
 docker attach milestone-dapp_neo_python_1
 
 # Open the neo-privnet.wallet (password is coz)
-open wallet neo-privnet.wallet
+open wallet /wallets/neo-privnet.wallet
 
 # Rebuild the wallet
 wallet rebuild
 
+# Check if the wallet is synced (usually fast on private net)
+wallet
+
 # Import the contract (with storage enabled)
-import contract /contract/milestone.avm 0710 05 True
+import contract /contracts/milestone.avm 0710 05 True
 
 # Fill in the metadata form and optionally deploy with your wallet password after a succesful test invoke
 

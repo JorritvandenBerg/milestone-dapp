@@ -5,7 +5,7 @@ services:
         build: ./neo-boa
         volumes:
             - ./smartcontract:/python-contracts
-            - compiled_contract:/compiled_contracts
+            - compiled_contracts:/compiled_contracts
 
     private_net:
         image: cityofzion/neo-privatenet
@@ -15,8 +15,8 @@ services:
         depends_on:
             - neo_boa
         volumes:
-            - wallet:/neo-python/neo-privnet.wallet
-            - compiled_contract:/neo-python/contract
+            - wallets:/neo-python/wallets
+            - compiled_contracts:/neo-python/contracts
         links:
             - private_net
         stdin_open: true
@@ -25,8 +25,8 @@ services:
     middleware:
         build: ./middleware
         volumes:
-            - wallet:/neo-python/neo-privnet.wallet
+            - wallets:/neo-python/wallets/neo-privnet.wallet
 
 volumes:
-    wallet:
-    compiled_contract:
+    wallets:
+    compiled_contracts:
