@@ -26,7 +26,7 @@ from boa.code.builtins import list
 # -------------------------------------------
 
 # Script hash of the token owner
-OWNER = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+OWNER = b'#\xba\'\x03\xc52c\xe8\xd6\xe5"\xdc2 39\xdc\xd8\xee\xe9'
 
 # INITIAL_FEE in asset units (can be adjusted with setFee operation)
 INITIAL_FEE = 1
