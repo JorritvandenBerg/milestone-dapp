@@ -6,6 +6,8 @@ RUN pip3 install redis
 
 RUN git clone https://github.com/CityOfZion/neo-python.git
 WORKDIR /neo-python
+RUN git checkout development
+
 RUN pip3 install -r requirements.txt
 RUN pip3 install -e .
 

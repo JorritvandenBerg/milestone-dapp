@@ -17,7 +17,6 @@ services:
         volumes:
             - wallet:/neo-python/neo-privnet.wallet
             - compiled_contract:/neo-python/contract
-
         links:
             - private_net
         stdin_open: true
