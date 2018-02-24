@@ -37,10 +37,10 @@ smart_contract = MilestoneSmartContract(script_hash, wallet_file, wallet_pwd)
 
 # Setup Redis
 rds = Redis(host='redis', port=6379, db=0)
-nm_auth_token = os.environ.get('NM_AUTH_TOKEN', None)
+redis_auth_token = os.environ.get('REDIS_AUTH_TOKEN', None)
 
-if not nm_auth_token:
-    logger.error("Redis NM_AUTH_TOKEN not set in secrets.env, aborting..")
+if not redis_auth_token:
+    logger.error("REDIS_AUTH_TOKEN not set in secrets.env, aborting..")
 
 def Listener():
 
@@ -65,7 +65,7 @@ def Listener():
         params = data['params']
         auth_token = data['auth_token']
 
-        if auth_token == nm_auth_token:
+        if auth_token == redis_auth_token:
             logger.info("Block %s / %s  - dispatching %s command",
                         str(Blockchain.Default().Height),
                         str(Blockchain.Default().HeaderHeight), operation)
@@ -77,7 +77,11 @@ def Listener():
                         str(Blockchain.Default().Height),
                         str(Blockchain.Default().HeaderHeight), operation)
 
-            response = {'cmd_id': cmd_id, 'status': 'failed'}
+            response = {
+                'cmd_id': cmd_id, 
+                'auth_token': redis_auth_token,
+                'status': 'failed'
+            }
             response = json.dumps(response)
 
             rds.publish('neo-response', response)

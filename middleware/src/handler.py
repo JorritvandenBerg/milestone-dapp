@@ -1,3 +1,4 @@
+import os
 import binascii
 import json
 from redis import Redis
@@ -9,6 +10,7 @@ class CommandHandler():
     def __init__(self, smart_contract, cmd_id, operation, params):
         self.smart_contract
         self.rds = Redis(host='redis', port=6379, db=0)
+        redis_auth_token = os.environ.get('REDIS_AUTH_TOKEN', None)
 
         if operation == 'milestone':
             self.milestone(cmd_id, params)
@@ -18,7 +20,12 @@ class CommandHandler():
 
         else:
             logger.error('Invalid command time %s', operation)
-            response = {'cmd_id': cmd_id, 'status': 'failed'}
+            response = {
+                'cmd_id': cmd_id,
+                'auth_token': redis_auth_token,
+                'status': 'failed'
+            }
+
             response = json.dumps(response)
 
             self.rds.publish('neo-response', response)

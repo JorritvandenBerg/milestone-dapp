@@ -15,8 +15,8 @@ services:
         depends_on:
             - neo_boa
         volumes:
-            - wallets:/neo-python/wallets
             - compiled_contracts:/neo-python/contracts
+            - private_chain:/neo-python/Chains/privnet
         links:
             - private_net
         stdin_open: true
@@ -24,9 +24,9 @@ services:
 
     middleware:
         build: ./middleware
-        volumes:
-            - wallets:/neo-python/wallets/neo-privnet.wallet
+        env_file:
+            - ./secrets.env
 
 volumes:
-    wallets:
+    private_chain:
     compiled_contracts:

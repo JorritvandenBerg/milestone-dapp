@@ -1,9 +1,11 @@
 # Milestone
-Milestone is a decentralized app for virtual collaboration. It allows to bind a conditional digital asset payment to a project task.
-This GIT repository contains the smart contract, middleware and a Python interface for application servers like Flask. The interface relies both on
-RPC methods and Redis messages to the middleware.
+Milestone is a decentralized platform for virtual collaboration. It allows to add conditional digital asset payments to the succesful execution of a project task.
+The front-end is hosted on https://www.mstone.io and provides an interface to create milestones, but the smart contract can also be used directly. That requires attaching assets when invoking the 'milestone' operation.
 
-This package also contains the tools for a private net deployement, in a Docker environment.
+This GIT repository contains the smart contract, middleware and a Python interface for application servers like Flask. The interface relies both on
+RPC methods and Redis messages to the middleware. The smart contract operations are included in the Usage paragraph below.
+
+This package also contains the tools for a private net deployement in a Docker environment.
 
 ## Table of Contents
 
@@ -71,22 +73,29 @@ import contract /contracts/milestone.avm 0710 05 True
 
 # Fill in the metadata form and optionally deploy with your wallet password after a succesful test invoke
 
-# Wait a few minutes for deployment and grab the contract hash with
+# Wait a few minutes for deployment and grab the contract script hash with
 contract search <entered author name>
 
 # Go crazy with some test invokes
 testinvoke <script_hash> fee []
 testinvoke <script_hash> setFee [2]
-testinvoke <script_hash> milestone ['milestone_key1', 'agreement2', 'AXAmGd22VaF7w8c5wd5t43HJs9p9WwymMv', 'AVTENjYfJDhtYyNTtmqSxKPx5watyFRqz4', 'github', '1522540800', '1', 'AQ2CAEAmXzCm3yB4ZfwRAuNA6973S2Ehv3', '5', 'NEOGAS', '60']
+testinvoke <script_hash> milestone ['milestone_key1', 'parent_agreement2', 'AXAmGd22VaF7w8c5wd5t43HJs9p9WwymMv', 'AVTENjYfJDhtYyNTtmqSxKPx5watyFRqz4', 'github', '1522540800', '1', 'AQ2CAEAmXzCm3yB4ZfwRAuNA6973S2Ehv3', '5', 'NEOGAS', '60']
 testinvokle <script_hash> review ['milestone_key1', '60']
 testinvoke <script_hash> deleteMilestone ['milestone_key1']
+testinvoke <script_hash> refund ['milestone_key1', False]
 
-# Add the script hash to secrets.env (SCRIPT_HASH) and choose a token for NM_AUTH_TOKEN to secure your middleware
+# Dettach from the neo-python container (run "wallet close" if you intend to stop the container)
+ctrl p + ctrl q
+
+# Add the script hash to secrets.env (SCRIPT_HASH) and choose a token for REDIS_AUTH_TOKEN to secure your middleware
 
 # Restart the middleware image
 docker-compose restart middleware
 
  ```
+
+Important: these Docker containers make use of named volumes (private_chain and contracts) to share data among each other and provide persistant storage.
+To remove both the containers and volumes, you have to use "docker-compose down -v". This will delete all the data!
 
 ## Maintainers
 

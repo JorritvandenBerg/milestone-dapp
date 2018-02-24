@@ -3,7 +3,8 @@ from boa.code.builtins import concat, list, range, take, substr
 
 def deserialize_bytearray(data):
 
-    # check if this can be removed
+    # neo-boa bug, Something is require here for some reason...
+    # pointless = True
     print("deserializing data...")
 
     # get length of length
