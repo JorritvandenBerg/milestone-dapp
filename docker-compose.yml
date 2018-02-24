@@ -5,7 +5,7 @@ services:
         build: ./neo-boa
         volumes:
             - ./smartcontract:/python-contracts
-            - compiled_contracts:/compiled_contracts
+            - compiled_contracts:/compiled-contracts
 
     private_net:
         image: cityofzion/neo-privatenet
