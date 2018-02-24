@@ -208,6 +208,13 @@ def Milestone(milestone_key, agreement, customer, assignee, platform,
     :rtype: bool
     """
 
+    context = GetContext()
+    m = Get(context, milestone_key)
+
+    if len(m) > 0:
+        Notify("milestone_key not unique, please use another")
+        return False
+
     # Get timestamp of current block
     currentHeight = GetHeight()
     currentBlock = GetHeader(currentHeight)
@@ -226,7 +233,6 @@ def Milestone(milestone_key, agreement, customer, assignee, platform,
         Notify("Datetime must be $MAX_TIME seconds ahead")
         return False
 
-    context = GetContext()
     fee = Get(context, 'fee')
 
     if len(fee) == 0:
@@ -319,6 +325,8 @@ def Review(milestone_key, review_score):
     threshold = milestone_data[10]
     pay_out = milestone_data[7]
 
+    # Update storage
+    Delete(context, milestone_key)
     milestone_data_serialized = serialize_array(milestone_data)
     Put(context, milestone_key, milestone_data_serialized)
     DispatchReviewEvent(milestone_key, review_score)
@@ -427,6 +435,7 @@ def Refund(milestone_key, fee_refund):
 
     milestone_data[11] = 'refunded'
     milestone_data_serialized = serialize_array(milestone_data)
+    Delete(context, milestone_key)
     Put(context, milestone_key, milestone_data_serialized)
     DispatchRefundEvent(milestone_key)
 
@@ -455,9 +464,11 @@ def DeleteMilestone(milestone_key):
     if status == 'reviewed':
         Delete(context, milestone_key)
         DispatchDeleteMilestoneEvent(milestone_key)
+        return True
 
     elif status == 'refunded':
         Delete(context, milestone_key)
         DispatchDeleteMilestoneEvent(milestone_key)
+        return True
 
     return False
