@@ -79,8 +79,8 @@ contract search <entered author name>
 # Go crazy with some test invokes
 testinvoke <script_hash> fee []
 testinvoke <script_hash> setFee [2]
-testinvoke <script_hash> milestone ['milestone_key1', 'parent_agreement2', 'AXAmGd22VaF7w8c5wd5t43HJs9p9WwymMv', 'AVTENjYfJDhtYyNTtmqSxKPx5watyFRqz4', 'github', '1522540800', '1', 'AQ2CAEAmXzCm3yB4ZfwRAuNA6973S2Ehv3', '5', 'NEOGAS', '60']
-testinvokle <script_hash> review ['milestone_key1', '60']
+testinvoke <script_hash> milestone ['milestone_key1', 'parent_agreement2', 'AXAmGd22VaF7w8c5wd5t43HJs9p9WwymMv', 'AVTENjYfJDhtYyNTtmqSxKPx5watyFRqz4', 'github', 1522540800, 1, 'AQ2CAEAmXzCm3yB4ZfwRAuNA6973S2Ehv3', '5', 'NEOGAS', 60]
+testinvokle <script_hash> review ['milestone_key1', 60]
 testinvoke <script_hash> deleteMilestone ['milestone_key1']
 testinvoke <script_hash> refund ['milestone_key1', False]
 
