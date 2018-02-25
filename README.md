@@ -76,13 +76,10 @@ import contract /contracts/milestone.avm 0710 05 True
 # Wait a few minutes for deployment and grab the contract script hash with
 contract search <entered author name>
 
-# Go crazy with some test invokes
+# Do some test invokes
 testinvoke <script_hash> fee []
 testinvoke <script_hash> setFee [2]
 testinvoke <script_hash> milestone ['milestone_key1', 'parent_agreement2', 'AXAmGd22VaF7w8c5wd5t43HJs9p9WwymMv', 'AVTENjYfJDhtYyNTtmqSxKPx5watyFRqz4', 'github', 1522540800, 1, 'AQ2CAEAmXzCm3yB4ZfwRAuNA6973S2Ehv3', '5', 'NEOGAS', 60]
-testinvokle <script_hash> review ['milestone_key1', 60]
-testinvoke <script_hash> deleteMilestone ['milestone_key1']
-testinvoke <script_hash> refund ['milestone_key1', False]
 
 # Dettach from the neo-python container (run "wallet close" if you intend to stop the container)
 ctrl p + ctrl q
@@ -93,6 +90,17 @@ ctrl p + ctrl q
 docker-compose restart middleware
 
  ```
+The smartcontract files are in the smartcontract subdirectory. The milestone.py contains the methods and the ./common/txio.py and ./common/serializers.py container helper files.
+
+The smartcontract supports the following opertations:
+1. 'fee' (get the current fee)
+2. 'setFee' (update the fee) 
+3. 'milestone' (add a new milestone)
+4. 'review' (add a review score to a milestone)
+5. 'refund' (refund the escrow and optionally the fee)
+6. 'deleteMilestone' (delete a reviewed or refunded milestone)
+
+The ./smartcontract/milestone.py file contains the parameters for these operations.
 
 Important: these Docker containers make use of named volumes (private_chain and contracts) to share data among each other and provide persistant storage.
 To remove both the containers and volumes, you have to use "docker-compose down -v". This will delete all the data!
