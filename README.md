@@ -111,4 +111,4 @@ To remove both the containers and volumes, you have to use "docker-compose down 
 
 ## License
 
-[License](LICENSE)
+[License](LICENSE.md)
