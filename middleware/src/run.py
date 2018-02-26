@@ -61,7 +61,6 @@ def Listener():
 
         try:
             data = json.loads(msg['data'])
-            data = msg['data']
             cmd_id = data['cmd_id']
             operation = data['operation']
             params = data['params']
