@@ -59,32 +59,37 @@ def Listener():
 
     for msg in p.listen():
 
-        data = msg['data']
-        cmd_id = data['cmd_id']
-        operation = data['operation']
-        params = data['params']
-        auth_token = data['auth_token']
+        try:
+            data = json.loads(msg['data'])
+            data = msg['data']
+            cmd_id = data['cmd_id']
+            operation = data['operation']
+            params = data['params']
+            auth_token = data['auth_token']
 
-        if auth_token == redis_auth_token:
-            logger.info("Block %s / %s  - dispatching %s command",
-                        str(Blockchain.Default().Height),
-                        str(Blockchain.Default().HeaderHeight), operation)
+            if auth_token == redis_auth_token:
+                logger.info("Block %s / %s  - dispatching %s command",
+                            str(Blockchain.Default().Height),
+                            str(Blockchain.Default().HeaderHeight), operation)
 
-            CommandHandler(smart_contract, cmd_id, operation, params)
+                CommandHandler(smart_contract, cmd_id, operation, params)
 
-        else:
-            logger.error("Block %s / %s  - unauthorized %s command",
-                        str(Blockchain.Default().Height),
-                        str(Blockchain.Default().HeaderHeight), operation)
+            else:
+                logger.error("Block %s / %s  - unauthorized %s command",
+                            str(Blockchain.Default().Height),
+                            str(Blockchain.Default().HeaderHeight), operation)
 
-            response = {
-                'cmd_id': cmd_id, 
-                'auth_token': redis_auth_token,
-                'status': 'failed'
-            }
-            response = json.dumps(response)
+                response = {
+                    'cmd_id': cmd_id,
+                    'auth_token': redis_auth_token,
+                    'status': 'failed'
+                }
+                response = json.dumps(response)
 
-            rds.publish('neo-response', response)
+                rds.publish('neo-response', response)
+
+        except ValueError as e:
+            print (e)
 
 def main():
     # Setup the blockchain
