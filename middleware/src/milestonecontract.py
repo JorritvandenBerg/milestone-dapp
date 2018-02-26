@@ -45,7 +45,7 @@ class MilestoneSmartContract(threading.Thread):
         self.invoke_queue = Queue()
 
         # Setup redis
-        self.rds = Redis(host='localhost', port=6379, db=0)
+        self.rds = Redis(host='redis', port=6379, db=0)
 
         self.tx_in_progress = None
         self.wallet = None

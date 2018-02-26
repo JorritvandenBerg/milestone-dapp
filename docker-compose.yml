@@ -10,6 +10,10 @@ services:
     private_net:
         image: cityofzion/neo-privatenet
 
+    redis:
+        image: redis:3.0-alpine
+        restart: always
+
     neo_python:
         build: ./neo-python
         depends_on:
@@ -24,6 +28,8 @@ services:
 
     middleware:
         build: ./middleware
+        links:
+            - redis
         env_file:
             - ./secrets.env
 
